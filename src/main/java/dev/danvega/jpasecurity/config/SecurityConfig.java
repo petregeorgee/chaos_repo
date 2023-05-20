@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .authorizeRequests(auth -> auth
                         .antMatchers("/h2-console/**").permitAll()
                         .mvcMatchers("/api/posts/**").permitAll()
+                        .mvcMatchers("/registration/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(myUserDetailsService)
