@@ -8,11 +8,11 @@
 		<version>2.7.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>dev.danvega</groupId>
-	<artifactId>jpa-security</artifactId>
+	<groupId>chaos-project</groupId>
+	<artifactId>image.encrypt.decrypt</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>jpa-security</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Java Project for Encrypt and Decrypt Images using Chaos Theory</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

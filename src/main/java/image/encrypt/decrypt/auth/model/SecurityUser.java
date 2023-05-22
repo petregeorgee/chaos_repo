@@ -1,4 +1,4 @@
-package dev.danvega.jpasecurity.model;
+package image.encrypt.decrypt.auth.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

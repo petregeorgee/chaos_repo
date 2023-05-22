@@ -1,4 +1,4 @@
-package dev.danvega.jpasecurity.model;
+package image.encrypt.decrypt.auth.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

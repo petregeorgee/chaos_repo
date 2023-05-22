@@ -1,6 +1,6 @@
-package dev.danvega.jpasecurity.config;
+package image.encrypt.decrypt.auth.config;
 
-import dev.danvega.jpasecurity.UserDetailsService.JpaUserDetailsService;
+import image.encrypt.decrypt.auth.UserDetailsService.JpaUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -9,8 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -25,18 +23,20 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(csrf -> csrf.ignoringAntMatchers("/h2-console/**"))
-                .authorizeRequests(auth -> auth
-                        .antMatchers("/h2-console/**").permitAll()
-                        .mvcMatchers("/api/posts/**").permitAll()
-                        .mvcMatchers("/registration/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .userDetailsService(myUserDetailsService)
-                .headers(headers -> headers.frameOptions().sameOrigin())
-                .httpBasic(withDefaults())
-                .build();
+        return http.csrf().disable().build();
+//
+//        return http
+//                .csrf(csrf -> csrf.ignoringAntMatchers("/h2-console/**"))
+//                .authorizeRequests(auth -> auth
+//                        .antMatchers("/h2-console/**").permitAll()
+//                        .mvcMatchers("/api/posts/**").permitAll()
+//                        .mvcMatchers("/registration/**").permitAll()
+//                        .anyRequest().denyAll()
+//                )
+//                .userDetailsService(myUserDetailsService)
+//                .headers(headers -> headers.frameOptions().sameOrigin())
+//                .httpBasic(withDefaults())
+//                .build();
     }
 
     @Bean

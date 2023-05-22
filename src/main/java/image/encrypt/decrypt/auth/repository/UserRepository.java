@@ -1,6 +1,6 @@
-package dev.danvega.jpasecurity.repository;
+package image.encrypt.decrypt.auth.repository;
 
-import dev.danvega.jpasecurity.model.User;
+import image.encrypt.decrypt.auth.model.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

@@ -1,8 +1,8 @@
-package dev.danvega.jpasecurity.controller;
+package image.encrypt.decrypt.auth.controller;
 
 
-import dev.danvega.jpasecurity.model.User;
-import dev.danvega.jpasecurity.repository.UserRepository;
+import image.encrypt.decrypt.auth.model.User;
+import image.encrypt.decrypt.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,8 +18,9 @@ public class RegistrationController
 
     @PostMapping(
             value = "/new",
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})    public ResponseEntity<User> register(@RequestBody User user)
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<User> register(@RequestBody User user)
     {
         validateUser(user);
         users.save(user);
