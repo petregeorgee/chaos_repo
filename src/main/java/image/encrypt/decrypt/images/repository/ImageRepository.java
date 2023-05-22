@@ -1,4 +1,4 @@
-package image.encrypt.decrypt.images;
+package image.encrypt.decrypt.images.repository;
 
 import java.util.Optional;
 
