@@ -3,6 +3,7 @@ package com.example.registrationlogindemo.controller;
 
 import com.example.registrationlogindemo.entity.Image;
 import com.example.registrationlogindemo.repository.ImageRepository;
+import com.example.registrationlogindemo.utils.ImageManager;
 import com.example.registrationlogindemo.utils.ImageUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/images")
@@ -22,6 +24,9 @@ public class ImageController
 {
     @Autowired
     ImageRepository imageRepository;
+
+    @Autowired
+    ImageManager imageManager;
 
     @GetMapping("/{username}")
     public List<String> getUserEncryptedImagesIds(@PathVariable("username") String username)
@@ -34,11 +39,11 @@ public class ImageController
             throws IOException
     {
         Image build = Image.builder()
-                .id(32423L)
+                .id(UUID.randomUUID().timestamp())
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
-                .image(ImageUtility.compressImage(file.getBytes())).build();
-        imageRepository.save(build);
+                .image(file.getBytes()).build();
+        imageManager.save(build);
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Image uploaded successfully: " +
                         file.getOriginalFilename());
