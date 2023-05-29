@@ -2,7 +2,9 @@ package com.example.registrationlogindemo.controller;
 
 
 import com.example.registrationlogindemo.entity.Image;
+import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.ImageRepository;
+import com.example.registrationlogindemo.service.UserService;
 import com.example.registrationlogindemo.utils.ImageManager;
 import com.example.registrationlogindemo.utils.ImageUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/images")
@@ -27,6 +30,10 @@ public class ImageController
 
     @Autowired
     ImageManager imageManager;
+    @Autowired
+
+    private UserService userService;
+
 
     @GetMapping("/{username}")
     public List<String> getUserEncryptedImagesIds(@PathVariable("username") String username)
@@ -38,12 +45,13 @@ public class ImageController
     public ResponseEntity<?> uploadImage(@PathVariable("username") String username, @RequestParam("image") MultipartFile file)
             throws IOException
     {
-        Image build = Image.builder()
-                .id(UUID.randomUUID().timestamp())
+        Image image = Image.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .image(file.getBytes()).build();
-        imageManager.save(build);
+        File encryptedImage = imageManager.getEncryptedImage(image);
+        image.setImage(ImageUtility.compressImage(Files.readAllBytes(encryptedImage.toPath())));
+        imageRepository.save(image);
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Image uploaded successfully: " +
                         file.getOriginalFilename());
