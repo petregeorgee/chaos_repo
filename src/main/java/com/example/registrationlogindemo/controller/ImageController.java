@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/images")
@@ -35,10 +36,15 @@ public class ImageController
     private UserService userService;
 
 
-    @GetMapping("/{username}")
-    public List<String> getUserEncryptedImagesIds(@PathVariable("username") String username)
-    {
-        return Arrays.asList("489735-234-234-asd", "poi3324-234-123-43");
+    @GetMapping("/decrypt/{id}")
+    public ResponseEntity<byte[]> getImage(@PathVariable("id") String id) throws IOException {
+        final Optional<Image> image = imageRepository.findById(id);
+        //TODO: get decrypted image from database;
+//        imageManager.getDecryptedImage(ImageUtility.decompressImage(image.get().getImage());
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.valueOf(image.get().getType()))
+                .body(ImageUtility.decompressImage(image.get().getImage()));
     }
 
     @PostMapping("/{username}")
@@ -48,24 +54,27 @@ public class ImageController
         Image image = Image.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
-                .image(file.getBytes()).build();
+                .image(file.getBytes())
+                .username(username).build();
+
         File encryptedImage = imageManager.getEncryptedImage(image);
-        image.setImage(ImageUtility.compressImage(Files.readAllBytes(encryptedImage.toPath())));
+        byte[] encryptedImageBytes = ImageUtility.compressImage(Files.readAllBytes(encryptedImage.toPath()));
+        image.setImage(encryptedImageBytes);
+
         imageRepository.save(image);
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Image uploaded successfully: " +
                         file.getOriginalFilename());
     }
 
-    @GetMapping(path = {"{username}/{imageName}"})
-    public ResponseEntity<byte[]> getImage(@PathVariable("username") String username, @PathVariable("imageName") String imageName) throws IOException {
+    @GetMapping(path = {"/list/{username}"})
+    public ResponseEntity<List> getListOfImagesId(@PathVariable("username") String username) throws IOException {
         //TODO: get image by id and filter it by username.
-        final Optional<Image> dbImage = imageRepository.findByName(imageName);
+        final List<Image> imageList = imageRepository.findByUsername(username);
 
         return ResponseEntity
                 .ok()
-                .contentType(MediaType.valueOf(dbImage.get().getType()))
-                .body(ImageUtility.decompressImage(dbImage.get().getImage()));
+                .body(imageList.stream().map(Image::getId).collect(Collectors.toList()));
     }
 
 }

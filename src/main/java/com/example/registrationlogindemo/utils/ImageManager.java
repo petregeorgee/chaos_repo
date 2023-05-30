@@ -23,6 +23,12 @@ public class ImageManager {
         return new File(encryptedPath);
     }
 
+    public File getDecryptedImage(Image build) throws IOException {
+        String originalImage = writeImageToDisk(build);
+        String encryptedPath= encryptImage(originalImage);
+        return new File(encryptedPath);
+    }
+
     private String encryptImage(String path) throws IOException
     {
         String enc_path;
