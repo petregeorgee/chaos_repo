@@ -41,7 +41,7 @@ public class AuthController {
     }
 
     // handler method to handle register user form submit request
-    @PostMapping("/register/getEncryptedImage")
+    @PostMapping("/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDto user,
                                BindingResult result,
                                Model model){

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -70,6 +72,8 @@ public class ImageController
     @GetMapping(path = {"/list/{username}"})
     public ResponseEntity<List> getListOfImagesId(@PathVariable("username") String username) throws IOException {
         //TODO: get image by id and filter it by username.
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String name = authentication.getName();
         final List<Image> imageList = imageRepository.findByUsername(username);
 
         return ResponseEntity
