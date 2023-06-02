@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 @RequestMapping("/images")
 public class ImageController
 {
@@ -47,6 +49,11 @@ public class ImageController
                 .ok()
                 .contentType(MediaType.valueOf(image.get().getType()))
                 .body(ImageUtility.decompressImage(image.get().getImage()));
+    }
+
+    @GetMapping("/upload")
+    public String upload() throws IOException {
+        return "image";
     }
 
     @PostMapping("/{username}")
