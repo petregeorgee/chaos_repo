@@ -37,19 +37,23 @@
 </nav>
 <div class="container">
     <div class="row">
-        <h1> Registered Users </h1>
+        <h1> Uploaded Images </h1>
     </div>
     <table class="table table-striped table-bordered table-hover">
         <thead class="table-dark">
             <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
                 <th>Username</th>
-                <th>Email</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="user: ${users}">
-                <td th:text="${user.username}"></td>
-                <td th:text="${user.email}"></td>
+            <tr th:each="image: ${images}">
+                <td th:text="${image.id}"></td>
+                <td th:text="${image.name}"></td>
+                <td th:text="${image.type}"></td>
+                <td th:text="${image.username}"></td>
             </tr>
         </tbody>
     </table>

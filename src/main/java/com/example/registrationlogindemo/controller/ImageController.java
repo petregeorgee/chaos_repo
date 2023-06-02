@@ -57,7 +57,7 @@ public class ImageController
     }
 
     @PostMapping("/{username}")
-    public ResponseEntity<?> uploadImage(@PathVariable("username") String username, @RequestParam("image") MultipartFile file)
+    public String uploadImage(@PathVariable("username") String username, @RequestParam("image") MultipartFile file)
             throws IOException
     {
         Image image = Image.builder()
@@ -71,21 +71,19 @@ public class ImageController
         image.setImage(encryptedImageBytes);
 
         imageRepository.save(image);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body("Image uploaded successfully: " +
-                        file.getOriginalFilename());
+        return "redirect:list/admin";
     }
 
     @GetMapping(path = {"/list/{username}"})
-    public ResponseEntity<List> getListOfImagesId(@PathVariable("username") String username) throws IOException {
+    public String getListOfImagesId(Model model, @PathVariable("username") String username) throws IOException {
         //TODO: get image by id and filter it by username.
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        String name = authentication.getName();
         final List<Image> imageList = imageRepository.findByUsername(username);
 
-        return ResponseEntity
-                .ok()
-                .body(imageList.stream().map(Image::getId).collect(Collectors.toList()));
+        model.addAttribute("images", imageList);
+
+        return "list";
     }
 
 }
