@@ -2,17 +2,13 @@ package com.example.registrationlogindemo.controller;
 
 
 import com.example.registrationlogindemo.entity.Image;
-import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.ImageRepository;
 import com.example.registrationlogindemo.service.UserService;
 import com.example.registrationlogindemo.utils.ImageManager;
 import com.example.registrationlogindemo.utils.ImageUtility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/images")
@@ -41,14 +35,13 @@ public class ImageController
 
 
     @GetMapping("/decrypt/{id}")
-    public ResponseEntity<byte[]> getImage(@PathVariable("id") String id) throws IOException {
-        final Optional<Image> image = imageRepository.findById(id);
-        //TODO: get decrypted image from database;
-//        imageManager.getDecryptedImage(ImageUtility.decompressImage(image.get().getImage());
+    public ResponseEntity<File> getImage(@PathVariable("id") String id) throws IOException {
+        final Image image = imageRepository.findById(id).get();
+        String path = String.valueOf(imageManager.getDecryptedImage(image));
         return ResponseEntity
                 .ok()
-                .contentType(MediaType.valueOf(image.get().getType()))
-                .body(ImageUtility.decompressImage(image.get().getImage()));
+                .contentType(MediaType.valueOf(image.getType()))
+                .body(new File(path));
     }
 
     @GetMapping("/upload")

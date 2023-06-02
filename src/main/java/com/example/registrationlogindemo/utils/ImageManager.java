@@ -19,14 +19,16 @@ public class ImageManager {
     PythonRunner pythonRunner;
     public File getEncryptedImage(Image build) throws IOException {
         String originalImage = writeImageToDisk(build);
+
         String encryptedPath= encryptImage(originalImage);
         return new File(encryptedPath);
     }
 
-    public File getDecryptedImage(Image build) throws IOException {
-        String originalImage = writeImageToDisk(build);
-        String encryptedPath= encryptImage(originalImage);
-        return new File(encryptedPath);
+    public File getDecryptedImage(Image image) throws IOException {
+        String originalImage = writeByteToDisk(ImageUtility.decompressImage(image.getImage()), image.getName() + "_enc");
+
+        String decryptedPath= decryptImage(originalImage);
+        return new File(decryptedPath);
     }
 
     private String encryptImage(String path) throws IOException
@@ -43,11 +45,38 @@ public class ImageManager {
         return enc_path;
     }
 
+    private String decryptImage(String path) throws IOException
+    {
+        String dec_path;
+        try
+        {
+            dec_path = pythonRunner.runPythonScript("C:\\Repo\\titu\\lorenz-euler-encrypt-decrypt\\main.py", path, "DECRYPT");
+        } finally
+        {
+            Files.delete(Paths.get(path));
+        }
+
+        return dec_path;
+    }
+
     private String writeImageToDisk(Image build) throws IOException {
         String path = Constants.SAVE_IMAGES_PATH + "/" + build.getName() + ".jpg";
         FileOutputStream fos = new FileOutputStream(path);
         try {
             fos.write(build.getImage());
+        }
+        finally {
+            fos.close();
+        }
+        return path;
+    }
+
+
+    private String writeByteToDisk(byte[] imageBytes, String filename) throws IOException {
+        String path = Constants.SAVE_IMAGES_PATH + "/" + filename + ".jpg";
+        FileOutputStream fos = new FileOutputStream(path);
+        try {
+            fos.write(imageBytes);
         }
         finally {
             fos.close();
