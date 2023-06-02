@@ -35,6 +35,8 @@ public class SpringSecurity {
                                         .requestMatchers("/images/upload").hasRole("ADMIN")
                                         .requestMatchers("/images/admin").hasRole("ADMIN")
                                         .requestMatchers("/images/list/admin").hasRole("ADMIN")
+                                        .requestMatchers("/images/list/admin").hasRole("ADMIN")
+                                        .requestMatchers("/images/decrypt/**").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")

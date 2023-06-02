@@ -18,7 +18,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/images")
@@ -35,13 +34,13 @@ public class ImageController
 
 
     @GetMapping("/decrypt/{id}")
-    public ResponseEntity<File> getImage(@PathVariable("id") String id) throws IOException {
+    public ResponseEntity<byte[]> getImage(@PathVariable("id") String id) throws IOException {
         final Image image = imageRepository.findById(id).get();
         String path = String.valueOf(imageManager.getDecryptedImage(image));
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.valueOf(image.getType()))
-                .body(new File(path));
+                .body(Files.readAllBytes(new File(path).toPath()));
     }
 
     @GetMapping("/upload")
