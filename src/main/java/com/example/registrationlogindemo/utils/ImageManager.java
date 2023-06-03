@@ -59,8 +59,8 @@ public class ImageManager {
         return dec_path;
     }
 
-    private String writeImageToDisk(Image build) throws IOException {
-        String path = Constants.SAVE_IMAGES_PATH + "/" + build.getName() + ".jpg";
+    public String writeImageToDisk(Image build) throws IOException {
+        String path = Constants.SAVE_IMAGES_PATH + "/" + build.getName();
         FileOutputStream fos = new FileOutputStream(path);
         try {
             fos.write(build.getImage());

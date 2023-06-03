@@ -6,6 +6,65 @@
     <meta charset="UTF-8">
     <title>Registration and Login System</title>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+    /* Toggle Switch Styles */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .toggle-switch input[type="checkbox"] {
+      display: none;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+    }
+
+    input[type="checkbox"]:checked + .toggle-slider {
+      background-color: #007bff;
+    }
+
+    input[type="checkbox"]:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+
+    /* Text Styles */
+    .toggle-text {
+      color: #000;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+
+    .toggle-text[data-off] {
+      display: none;
+    }
+
+    .toggle-text[data-on] {
+      display: inline;
+    }
+  </style>
     <script>
 $(document).ready(function(){
     $("button").click(function(){
@@ -65,14 +124,31 @@ $(document).ready(function(){
         </tbody>
     </table>
 </div>
-
-<div id="imageContainer">    <button onclick="fetchImage('3f5604c0-79f5-443f-986b-f011b5e03ae1')">Call jQuery Function</button>
+<div class="custom-control custom-switch">
+    Decrypt <label class="toggle-switch">
+        <input type="checkbox" id="toggleButton">
+        <span class="toggle-slider"></span>
+    </label>
+     <span class="toggle-text" data-off="Encrypt" data-on="Decrypt">Encrypt</span>
+    <br>
+    <br>
+    <br>
 </div>
+<div id="imageContainer"></div>
 
-    <script>
+<script>
         function fetchImage(event, id) {
-            var url = "http://localhost:8080/images/decrypt/" + id;
-            console.error(url);
+            var isChecked =  $('#toggleButton').is(':checked');
+             var url = ''
+            if (isChecked) {
+              // Perform encrypt operation
+              console.log('Ecrypt option selected');
+              var url = "http://localhost:8080/images/encrypted/" + id;
+            } else {
+              // Perform decrypt operation
+              console.log('Decrypt option selected');
+              var url = "http://localhost:8080/images/decrypt/" + id;
+            }
             $.ajax({
                 type: "GET",
                 url: url,
@@ -94,7 +170,13 @@ $(document).ready(function(){
             var img = $("<img>").attr("src", imageUrl);
             $("#imageContainer").append(img);
         }
-    </script>
+
+
+
+
+
+
+</script>
 
 </body>
 </html>

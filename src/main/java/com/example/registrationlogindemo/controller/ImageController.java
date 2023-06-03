@@ -43,6 +43,17 @@ public class ImageController
                 .body(Files.readAllBytes(new File(path).toPath()));
     }
 
+    @GetMapping("/encrypted/{id}")
+    public ResponseEntity<byte[]> getEncryptedImage(@PathVariable("id") String id) throws IOException {
+        final Image image = imageRepository.findById(id).get();
+        image.setImage(ImageUtility.decompressImage(image.getImage()));
+        String originalImage = imageManager.writeImageToDisk(image);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.valueOf(image.getType()))
+                .body(Files.readAllBytes(new File(originalImage).toPath()));
+    }
+
     @GetMapping("/upload")
     public String upload() throws IOException {
         return "image";
