@@ -127,29 +127,28 @@ $(document).ready(function(){
     </table>
 </div>
 <div class="container">
-    Encrypt <label class="toggle-switch">
-        <input type="checkbox" id="toggleButton">
-        <span class="toggle-slider"></span>
+    <label>
+        <input type="radio" name="operation" value="encrypt" checked> Encrypt
     </label>
-     <span class="toggle-text" data-off="Encrypt" data-on="Encrypt">Decrypt</span>
-    <br>
-    <br>
-    <br>
+    <label>
+        <input type="radio" name="operation" value="decrypt"> Decrypt
+    </label>
+    <label>
+        <input type="radio" name="operation" value="histogram"> Histogram
+    </label>
 </div>
 <div class="container" id="imageContainer"></div>
 
 <script>
         function fetchImage(event, id) {
-            var isChecked =  $('#toggleButton').is(':checked');
-             var url = ''
-            if (isChecked) {
-              // Perform decrypt operation
-              console.log('Decrypt option selected');
-              var url = "http://localhost:8080/images/decrypt/" + id;
-            } else {
-              // Perform encrypt operation
-              console.log('Ecrypt option selected');
+            var selectedOption = $('input[name="operation"]:checked').val();
+            var url = ''
+            if (selectedOption === "encrypt") {
               var url = "http://localhost:8080/images/encrypted/" + id;
+            } else if (selectedOption === "decrypt") {
+              var url = "http://localhost:8080/images/decrypt/" + id;
+            } else if (selectedOption === "histogram") {
+              var url = "http://localhost:8080/images/histogram/" + id;
             }
             $.ajax({
                 type: "GET",

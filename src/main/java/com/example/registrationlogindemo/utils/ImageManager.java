@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static com.example.registrationlogindemo.ImageAction.*;
+
 @Service
 public class ImageManager {
 
@@ -31,32 +33,51 @@ public class ImageManager {
         return new File(decryptedPath);
     }
 
-    private String encryptImage(String path) throws IOException
+    public String getHistogram(String image) throws IOException
     {
-        String enc_path;
+        return histogram(image);
+    }
+
+    private String histogram(String path) throws IOException
+    {
+        String histogramPath;
         try
         {
-            enc_path = pythonRunner.runPythonScript("C:\\Repo\\titu\\lorenz-euler-encrypt-decrypt\\main.py", path, "ENCRYPT");
+            histogramPath = pythonRunner.runPythonScript("C:\\Repo\\titu\\lorenz-euler-encrypt-decrypt\\main.py", path, String.valueOf(HISTOGRAM));
         } finally
         {
             Files.delete(Paths.get(path));
         }
 
-        return enc_path;
+        return histogramPath;
+    }
+
+    private String encryptImage(String path) throws IOException
+    {
+        String encryptedPath;
+        try
+        {
+            encryptedPath = pythonRunner.runPythonScript("C:\\Repo\\titu\\lorenz-euler-encrypt-decrypt\\main.py", path, String.valueOf(ENCRYPT));
+        } finally
+        {
+            Files.delete(Paths.get(path));
+        }
+
+        return encryptedPath;
     }
 
     private String decryptImage(String path) throws IOException
     {
-        String dec_path;
+        String decryptedPath;
         try
         {
-            dec_path = pythonRunner.runPythonScript("C:\\Repo\\titu\\lorenz-euler-encrypt-decrypt\\main.py", path, "DECRYPT");
+            decryptedPath = pythonRunner.runPythonScript("C:\\Repo\\titu\\lorenz-euler-encrypt-decrypt\\main.py", path, String.valueOf(DECRYPT));
         } finally
         {
             Files.delete(Paths.get(path));
         }
 
-        return dec_path;
+        return decryptedPath;
     }
 
     private String writeImageToDisk(Image build) throws IOException {

@@ -47,11 +47,22 @@ public class ImageController
     @GetMapping("/encrypted/{id}")
     public ResponseEntity<byte[]> getEncryptedImage(@PathVariable("id") String id) throws IOException {
         final Image image = imageRepository.findById(id).get();
-        String originalImage = imageManager.getEncryptedImageFromDb(image);
+        String encryptedImage = imageManager.getEncryptedImageFromDb(image);
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.valueOf(image.getType()))
-                .body(Files.readAllBytes(new File(originalImage).toPath()));
+                .body(Files.readAllBytes(new File(encryptedImage).toPath()));
+    }
+
+    @GetMapping("/histogram/{id}")
+    public ResponseEntity<byte[]> getHistogram(@PathVariable("id") String id) throws IOException {
+        final Image image = imageRepository.findById(id).get();
+        String encryptedImage = imageManager.getEncryptedImageFromDb(image);
+        String histogram = imageManager.getHistogram(encryptedImage);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.valueOf(image.getType()))
+                .body(Files.readAllBytes(new File(histogram).toPath()));
     }
 
     @GetMapping("/upload")
