@@ -29,14 +29,9 @@ public class SpringSecurity {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                                 authorize.requestMatchers("/register/**").permitAll()
-//                                .requestMatchers("/images/**").permitAll()
                                         .requestMatchers("/index/**").permitAll()
                                         .requestMatchers("/users").hasRole("ADMIN")
-                                        .requestMatchers("/images/upload").hasRole("ADMIN")
-                                        .requestMatchers("/images/admin").hasRole("ADMIN")
-                                        .requestMatchers("/images/list/admin").hasRole("ADMIN")
-                                        .requestMatchers("/images/decrypt/**").hasRole("ADMIN")
-                                        .requestMatchers("/images/encrypted/**").hasRole("ADMIN")
+                                        .requestMatchers("/images/**").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
