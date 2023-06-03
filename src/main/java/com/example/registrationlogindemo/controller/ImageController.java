@@ -46,8 +46,7 @@ public class ImageController
     @GetMapping("/encrypted/{id}")
     public ResponseEntity<byte[]> getEncryptedImage(@PathVariable("id") String id) throws IOException {
         final Image image = imageRepository.findById(id).get();
-        image.setImage(ImageUtility.decompressImage(image.getImage()));
-        String originalImage = imageManager.writeImageToDisk(image);
+        String originalImage = imageManager.getEncryptedImageFromDb(image);
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.valueOf(image.getType()))

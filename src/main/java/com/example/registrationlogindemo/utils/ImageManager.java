@@ -59,7 +59,7 @@ public class ImageManager {
         return dec_path;
     }
 
-    public String writeImageToDisk(Image build) throws IOException {
+    private String writeImageToDisk(Image build) throws IOException {
         String path = Constants.SAVE_IMAGES_PATH + "/" + build.getName();
         FileOutputStream fos = new FileOutputStream(path);
         try {
@@ -85,4 +85,9 @@ public class ImageManager {
     }
 
 
+    public String getEncryptedImageFromDb(Image image) throws IOException
+    {
+        image.setImage(ImageUtility.decompressImage(image.getImage()));
+        return writeImageToDisk(image);
+    }
 }
