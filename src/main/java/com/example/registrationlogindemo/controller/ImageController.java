@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -67,6 +68,7 @@ public class ImageController
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .image(file.getBytes())
+                .dateUploaded(new Date())
                 .username(authUser.getUsername()).build();
 
         File encryptedImage = imageManager.getEncryptedImage(image);

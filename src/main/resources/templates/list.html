@@ -112,6 +112,7 @@ $(document).ready(function(){
                 <th>Name</th>
                 <th>Type</th>
                 <th>Username</th>
+                <th>Date Uploaded</th>
             </tr>
         </thead>
         <tbody>
@@ -120,6 +121,7 @@ $(document).ready(function(){
                 <td th:text="${image.name}"></td>
                 <td th:text="${image.type}"></td>
                 <td th:text="${image.username}"></td>
+                <td th:text="${image.dateUploaded}"></td>
             </tr>
         </tbody>
     </table>

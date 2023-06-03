@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Arrays;
+import java.util.Date;
 
 @Setter
 @Getter
@@ -29,6 +30,9 @@ public class Image
 
     @Column(name="username", nullable = false)
     private String username;
+
+    @Column(name="date")
+    private Date dateUploaded;
 
     @Override
     public String toString()
