@@ -125,11 +125,11 @@ $(document).ready(function(){
     </table>
 </div>
 <div class="container">
-    Decrypt <label class="toggle-switch">
+    Encrypt <label class="toggle-switch">
         <input type="checkbox" id="toggleButton">
         <span class="toggle-slider"></span>
     </label>
-     <span class="toggle-text" data-off="Encrypt" data-on="Decrypt">Encrypt</span>
+     <span class="toggle-text" data-off="Encrypt" data-on="Encrypt">Decrypt</span>
     <br>
     <br>
     <br>
@@ -141,13 +141,13 @@ $(document).ready(function(){
             var isChecked =  $('#toggleButton').is(':checked');
              var url = ''
             if (isChecked) {
-              // Perform encrypt operation
-              console.log('Ecrypt option selected');
-              var url = "http://localhost:8080/images/encrypted/" + id;
-            } else {
               // Perform decrypt operation
               console.log('Decrypt option selected');
               var url = "http://localhost:8080/images/decrypt/" + id;
+            } else {
+              // Perform encrypt operation
+              console.log('Ecrypt option selected');
+              var url = "http://localhost:8080/images/encrypted/" + id;
             }
             $.ajax({
                 type: "GET",
