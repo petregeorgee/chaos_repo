@@ -9,7 +9,6 @@
     <script>
 $(document).ready(function(){
     $("button").click(function(){
-        alert("jQuery is working perfectly.");
     });
 });
 </script>
@@ -58,7 +57,7 @@ $(document).ready(function(){
         </thead>
         <tbody>
             <tr th:each="image: ${images}">
-                <td th:text="${image.id}"></td>
+                <td th:text="${image.id}" th:data-image-id="${image.id}"  th:attr="onclick='fetchImage(event, \'' + ${image.id} + '\')'"></td>
                 <td th:text="${image.name}"></td>
                 <td th:text="${image.type}"></td>
                 <td th:text="${image.username}"></td>
@@ -71,7 +70,7 @@ $(document).ready(function(){
 </div>
 
     <script>
-        function fetchImage(id) {
+        function fetchImage(event, id) {
             var url = "http://localhost:8080/images/decrypt/" + id;
             console.error(url);
             $.ajax({
