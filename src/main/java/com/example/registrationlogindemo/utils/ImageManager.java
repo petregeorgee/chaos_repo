@@ -27,7 +27,8 @@ public class ImageManager {
     }
 
     public File getDecryptedImage(Image image) throws IOException {
-        String originalImage = writeByteToDisk(ImageUtility.decompressImage(image.getImage()), image.getName() + "_enc");
+        String name = image.getName().split("\\.")[0];
+        String originalImage = writeByteToDisk(ImageUtility.decompressImage(image.getImage()), name + "_enc.jpg");
 
         String decryptedPath= decryptImage(originalImage);
         return new File(decryptedPath);
@@ -94,7 +95,7 @@ public class ImageManager {
 
 
     private String writeByteToDisk(byte[] imageBytes, String filename) throws IOException {
-        String path = Constants.SAVE_IMAGES_PATH + "/" + filename + ".jpg";
+        String path = Constants.SAVE_IMAGES_PATH + "\\" + filename;
         FileOutputStream fos = new FileOutputStream(path);
         try {
             fos.write(imageBytes);
