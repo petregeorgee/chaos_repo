@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RegistrationLoginDemoApplicationTests {
+class EncryptDecryptAppTests
+{
 
 	@Test
 	void contextLoads() {

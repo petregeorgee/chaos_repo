@@ -19,8 +19,9 @@ public class ImageManager {
     PythonRunner pythonRunner;
     private final String PYTHON_SCRIPT_PATH = "C:\\Repo\\titu\\lorenz-euler-encrypt-decrypt\\main.py";
 
-    public File getEncryptedImage(Image build) throws IOException {
-        String originalImage = writeImageToDisk(build);
+    public File getEncryptedImage(Image image) throws IOException {
+        image.setName(image.getName().replace(" ", "_"));
+        String originalImage = writeImageToDisk(image);
 
         String encryptedPath= encryptImage(originalImage);
         return new File(encryptedPath);
@@ -82,8 +83,8 @@ public class ImageManager {
     }
 
     private String writeImageToDisk(Image build) throws IOException {
-        String path = Constants.SAVE_IMAGES_PATH + "/" + build.getName();
-        FileOutputStream fos = new FileOutputStream(path);
+        String path = Constants.SAVE_IMAGES_PATH + "\\" + build.getName();
+            FileOutputStream fos = new FileOutputStream(path);
         try {
             fos.write(build.getImage());
         }
