@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 import static image.encrypt.decrypt.utils.ImageAction.*;
 
@@ -17,7 +18,11 @@ public class ImageManager {
 
     @Autowired
     PythonRunner pythonRunner;
-    private final String PYTHON_SCRIPT_PATH = "C:\\Repo\\titu\\lorenz-euler-encrypt-decrypt\\main.py";
+
+    public String getPythonPath()
+    {
+        return Objects.requireNonNull(findFolder("lorenz-euler-encrypt-decrypt")) + "\\main.py";
+    }
 
     public File getEncryptedImage(Image image) throws IOException {
         image.setName(image.getName().replace(" ", "_"));
@@ -45,7 +50,7 @@ public class ImageManager {
         String histogramPath;
         try
         {
-            histogramPath = pythonRunner.runPythonScript(PYTHON_SCRIPT_PATH, path, String.valueOf(HISTOGRAM));
+            histogramPath = pythonRunner.runPythonScript(getPythonPath(), path, String.valueOf(HISTOGRAM));
         } finally
         {
             Files.delete(Paths.get(path));
@@ -59,7 +64,7 @@ public class ImageManager {
         String encryptedPath;
         try
         {
-            encryptedPath = pythonRunner.runPythonScript(PYTHON_SCRIPT_PATH, path, String.valueOf(ENCRYPT));
+            encryptedPath = pythonRunner.runPythonScript(getPythonPath(), path, String.valueOf(ENCRYPT));
         } finally
         {
             Files.delete(Paths.get(path));
@@ -73,7 +78,7 @@ public class ImageManager {
         String decryptedPath;
         try
         {
-            decryptedPath = pythonRunner.runPythonScript(PYTHON_SCRIPT_PATH, path, String.valueOf(DECRYPT));
+            decryptedPath = pythonRunner.runPythonScript(getPythonPath(), path, String.valueOf(DECRYPT));
         } finally
         {
             Files.delete(Paths.get(path));
@@ -112,5 +117,28 @@ public class ImageManager {
     {
         image.setImage(ImageUtility.decompressImage(image.getImage()));
         return writeImageToDisk(image);
+    }
+
+    public static File findFolder(String folderName) {
+        // Get the current working directory
+        String currentDirectory = System.getProperty("user.dir");
+
+        // Create a File object representing the current directory
+        File directory =new File(new File(currentDirectory).getParent());
+
+        // Get a list of all files and folders in the current directory
+        File[] files = directory.listFiles();
+
+        if (files != null) {
+            // Iterate over the files and folders
+            for (File file : files) {
+                // Check if the current item is a folder and has the desired name
+                if (file.isDirectory() && file.getName().equals(folderName)) {
+                    return file; // Found the folder
+                }
+            }
+        }
+
+        return null; // Folder not found
     }
 }
