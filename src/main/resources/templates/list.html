@@ -131,6 +131,7 @@ $(document).ready(function(){
                 <button th:attr="onclick='decrypt(event, \'' + ${image.id} + '\')'" type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>
                 <button th:attr="onclick='encrypt(event, \'' + ${image.id} + '\')'" type="button" class="btn btn-success"><i class="fa-solid fa-eye-slash"></i></button>
                 <button th:attr="onclick='histogram(event, \'' + ${image.id} + '\')'" type="button" class="btn btn-dark"><i class="fa-solid fa-chart-line"></i></button>
+                <button th:attr="onclick='deleteImg(event, \'' + ${image.id} + '\')'" type="button" class="btn btn-danger"><i class="fa-solid fa-delete-left"></i></button>
             </td>
         </tr>
         </tbody>
@@ -193,6 +194,23 @@ $(document).ready(function(){
                 error: function() {
                     console.error("Failed to fetch the image.");
                 }
+            });
+        }
+
+        function deleteImg(event, id) {
+            var url = "http://localhost:8080/images/delete/" + id;
+            $.ajax({
+                type: "DELETE",
+                url: url,
+                success: function(data) {
+                    refreshPage();
+                },
+            });
+        }
+
+        function refreshPage(){
+            document.addEventListener("DOMContentLoaded", function() {
+                refreshPage();
             });
         }
 

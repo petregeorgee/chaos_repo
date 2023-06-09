@@ -90,6 +90,13 @@ public class ImageController
         return "redirect:list";
     }
 
+    @DeleteMapping("/delete/{id}")
+    public String deleteImage(@PathVariable("id") String id)
+    {
+        imageRepository.deleteById(id);
+        return "redirect:image";
+    }
+
     @GetMapping(path = {"/list"})
     public String getListOfImagesId(Model model)
     {
