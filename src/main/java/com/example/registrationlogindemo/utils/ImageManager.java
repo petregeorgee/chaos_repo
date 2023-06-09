@@ -19,6 +19,8 @@ public class ImageManager {
 
     @Autowired
     PythonRunner pythonRunner;
+    private final String PYTHON_SCRIPT_PATH = "C:\\Repo\\titu\\lorenz-euler-encrypt-decrypt\\main.py";
+
     public File getEncryptedImage(Image build) throws IOException {
         String originalImage = writeImageToDisk(build);
 
@@ -44,7 +46,7 @@ public class ImageManager {
         String histogramPath;
         try
         {
-            histogramPath = pythonRunner.runPythonScript("C:\\Repo\\titu\\lorenz-euler-encrypt-decrypt\\main.py", path, String.valueOf(HISTOGRAM));
+            histogramPath = pythonRunner.runPythonScript(PYTHON_SCRIPT_PATH, path, String.valueOf(HISTOGRAM));
         } finally
         {
             Files.delete(Paths.get(path));
@@ -58,7 +60,7 @@ public class ImageManager {
         String encryptedPath;
         try
         {
-            encryptedPath = pythonRunner.runPythonScript("C:\\Repo\\titu\\lorenz-euler-encrypt-decrypt\\main.py", path, String.valueOf(ENCRYPT));
+            encryptedPath = pythonRunner.runPythonScript(PYTHON_SCRIPT_PATH, path, String.valueOf(ENCRYPT));
         } finally
         {
             Files.delete(Paths.get(path));
@@ -72,7 +74,7 @@ public class ImageManager {
         String decryptedPath;
         try
         {
-            decryptedPath = pythonRunner.runPythonScript("C:\\Repo\\titu\\lorenz-euler-encrypt-decrypt\\main.py", path, String.valueOf(DECRYPT));
+            decryptedPath = pythonRunner.runPythonScript(PYTHON_SCRIPT_PATH, path, String.valueOf(DECRYPT));
         } finally
         {
             Files.delete(Paths.get(path));
