@@ -1,7 +1,5 @@
 package image.encrypt.decrypt.utils;
 
-import image.encrypt.decrypt.Constants;
-import image.encrypt.decrypt.PythonRunner;
 import image.encrypt.decrypt.entity.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static image.encrypt.decrypt.ImageAction.*;
+import static image.encrypt.decrypt.utils.ImageAction.*;
 
 @Service
 public class ImageManager {

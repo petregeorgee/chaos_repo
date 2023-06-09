@@ -1,4 +1,4 @@
-package image.encrypt.decrypt;
+package image.encrypt.decrypt.utils;
 
 public enum ImageAction
 {

@@ -1,4 +1,4 @@
-package image.encrypt.decrypt;
+package image.encrypt.decrypt.utils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

@@ -1,4 +1,4 @@
-package image.encrypt.decrypt;
+package image.encrypt.decrypt.utils;
 
 import org.springframework.stereotype.Service;
 
