@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface ImageRepository extends JpaRepository<Image, String> {
     List<Image> findByUsername(@Param("username") String username);
     Optional<Image> findById(@Param("id") String id);
-
+    void deleteById(@Param("id") String id);
 }

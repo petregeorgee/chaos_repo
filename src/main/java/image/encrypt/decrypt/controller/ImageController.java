@@ -8,6 +8,7 @@ import image.encrypt.decrypt.service.UserService;
 import image.encrypt.decrypt.utils.ImageManager;
 import image.encrypt.decrypt.utils.ImageUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -93,8 +94,15 @@ public class ImageController
     @DeleteMapping("/delete/{id}")
     public String deleteImage(@PathVariable("id") String id)
     {
-        imageRepository.deleteById(id);
-        return "redirect:image";
+
+        System.out.println(id);
+        Image image = imageRepository.findById(id).get();
+        if (image.getId().equals(id))
+            imageRepository.deleteById(id);
+        else
+            System.out.println("Image not found with id " + id);
+
+        return "image";
     }
 
     @GetMapping(path = {"/list"})
