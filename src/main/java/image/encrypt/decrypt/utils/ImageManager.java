@@ -40,9 +40,10 @@ public class ImageManager {
         return new File(decryptedPath);
     }
 
-    public String getHistogram(String image) throws IOException
+    public File getHistogram(String image) throws IOException
     {
-        return histogram(image);
+        String histogramPath = histogram(image);
+        return new File(histogramPath);
     }
 
     private String histogram(String path) throws IOException
@@ -113,10 +114,11 @@ public class ImageManager {
     }
 
 
-    public String getEncryptedImageFromDb(Image image) throws IOException
+    public File getEncryptedImageFromDb(Image image) throws IOException
     {
         image.setImage(ImageUtility.decompressImage(image.getImage()));
-        return writeImageToDisk(image);
+        String encryptedPath = writeImageToDisk(image);
+        return new File(encryptedPath);
     }
 
     public static File findFolder(String folderName) {
