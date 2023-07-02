@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
@@ -54,7 +55,7 @@ public class ImageManager {
             histogramPath = pythonRunner.runPythonScript(getPythonPath(), path, String.valueOf(HISTOGRAM));
         } finally
         {
-            Files.delete(Paths.get(path));
+            Files.deleteIfExists(Paths.get(path));
         }
 
         return histogramPath;
